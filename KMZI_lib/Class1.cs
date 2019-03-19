@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace KMZI_lib
 {
-    public class Class1
+    public class KMZI
     {
         public static List<long> a = new List<long>();
         public static List<long> x = new List<long>();
         public static List<long> y = new List<long>();
         public static List<long> q = new List<long>();
+
+        public static int c = 0;
         static public long InverseNumber(long A, long B, long C)//А-находим обратное к этому числу, В-модуль
         {
             long nod;
@@ -175,6 +177,154 @@ namespace KMZI_lib
                     buf += buf;
             }
             return buf;
+        }
+        public static Dictionary<long, long> Factorization(long num)
+        {
+            Dictionary<long, long> dic = new Dictionary<long, long>();
+
+            for (int i = 2; i <= num; i++)
+            {
+                if (CheckForSimplicity(i) && num % i == 0)
+                {
+                    int c = 0;
+                    while (num % i == 0) { num /= i; c++; }
+                    dic.Add(i, c);
+                }
+            }
+
+            return dic;
+        }
+        public static long NOK(long m, long n)
+        {
+            return m * n / NOD(m, n);
+        }
+        public static long[] DivisionPolinom(long[] K1, long[] K2, long mod)
+        {
+            //  int deg = K1.Length - 1;
+            long[] result = new long[(K1.Length - 1) - (K2.Length - 1) + 1];
+            if (K2.Length > K1.Length) throw new Exception("Степень делимого многочлена должна быть выше делителя!");
+            for (int i = K1.Length - 1; i >= 0; i--)
+            {
+                long[] buf = new long[K1.Length];
+                if (i >= K2.Length - 1)
+                {
+                    result[i - (K2.Length - 1)] = K1[i];//разобраться с индексом, тк в рес должно быть меньше i
+
+                    for (int k = 0; k < K2.Length; k++)
+                    {
+                        buf[i - (K2.Length - 1) + k] = result[i - (K2.Length - 1)] * K2[k];
+                    }
+                    for (int j = K1.Length - 1; j >= 0; j--)
+                    {
+                        buf[j] = K1[j] - buf[j];
+                        buf[j] = numOnMod(buf[j], mod);
+                    }
+                    K1 = buf;//deg = i + K2.Length - 1;
+                }
+            }
+            Array.Reverse(result);
+            Array.Reverse(K1);
+            //string s = "Коэффициенты многочлена: ";
+            //for (int i = 0; i < result.Length; i++)
+            //{
+            //    s += result[i] + " ";
+            //}
+            //s += "\nКоэффициенты остатка: ";
+            //for (int i = 0; i < K1.Length; i++)
+            //    s += K1[i] + " ";
+            return result;
+        }
+        public static long[] ModPolinom(long[] K1, long[] K2, long mod)
+        {
+            //  int deg = K1.Length - 1;
+            if (K2.Length > K1.Length) throw new Exception("Степень делимого многочлена должна быть выше делителя!");
+            long[] result = new long[(K1.Length - 1) - (K2.Length - 1) + 1];
+            for (int i = K1.Length - 1; i >= 0; i--)
+            {
+                long[] buf = new long[K1.Length];
+                if (i >= K2.Length - 1)
+                {
+                    result[i - (K2.Length - 1)] = K1[i];//разобраться с индексом, тк в рес должно быть меньше i
+
+                    for (int k = 0; k < K2.Length; k++)
+                    {
+                        buf[i - (K2.Length - 1) + k] = result[i - (K2.Length - 1)] * K2[k];
+                    }
+                    for (int j = K1.Length - 1; j >= 0; j--)
+                    {
+                        buf[j] = K1[j] - buf[j];
+                        buf[j] = numOnMod(buf[j], mod);
+                    }
+                    K1 = buf;//deg = i + K2.Length - 1;
+                }
+            }
+            Array.Reverse(result);
+            Array.Reverse(K1);
+            //string s = "Коэффициенты многочлена: ";
+            //for (int i = 0; i < result.Length; i++)
+            //{
+            //    s += result[i] + " ";
+            //}
+            //s += "\nКоэффициенты остатка: ";
+            //for (int i = 0; i < K1.Length; i++)
+            //    s += K1[i] + " ";
+            return K1;
+        }
+        public static long numOnMod(long num, long mod)
+        {
+            while (num < 0) num += mod;
+            while (num > mod) num -= mod;
+            return num;
+        }
+
+
+        /// <summary>
+      /// Нахождение периода ЛРП
+      /// </summary>
+      /// <param name="k">Длина нального вектора</param>
+      /// <param name="max">Граница максимально возможного периода</param>
+      /// <param name="ai">ЛРП</param>
+      /// <returns>Период последовательности</returns>
+        public static int Period(int k, int max, List<int> ai)
+        {
+            int t = 0;
+            for (int i = k - 1; i < max; i++)
+            {
+                int b = 0;
+                while (b != k && ai[i + b] == ai[b])
+                {
+                    b++;
+                }
+                if (b < k) t++;
+                else break;
+            }
+            return t - 1 + k;
+        }
+        /// <summary>
+        /// Вычисление ЛРП
+        /// </summary>
+        /// <param name="vector">Начальный вектор значений</param>
+        /// <param name="max">Граница максимально возможного периода</param>
+        /// <param name="Pi">Коэффициенты многочлена, записанные после переноса в левую часть</param>
+        /// <param name="mod">Модуль</param>
+        /// <returns>ЛРП</returns>
+        public static List<int> LRP(List<int> vector, int max, List<int> Pi, int mod)
+        {
+            if (c > max)
+                return newElement(vector, Pi, mod);
+            c++;
+            vector = LRP(vector, max, Pi, mod);
+            return newElement(vector, Pi,mod);
+        }
+        static List<int> newElement(List<int> ls, List<int> Pi,int mod)
+        {
+            int buf = 0;
+            for (int i = 0; i < Pi.Count; i++)
+            {
+                buf += ls[ls.Count - i - 1] * Pi[Pi.Count - i - 1];
+            }
+            ls.Add(buf % mod);
+            return ls;
         }
     }
 }
