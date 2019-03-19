@@ -12,7 +12,9 @@ namespace KMZI_lib
         public static List<long> x = new List<long>();
         public static List<long> y = new List<long>();
         public static List<long> q = new List<long>();
-
+        /// <summary>
+        /// Счетчик для ЛРС
+        /// </summary>
         public static int c = 0;
         static public long InverseNumber(long A, long B, long C)//А-находим обратное к этому числу, В-модуль
         {
