@@ -16,7 +16,14 @@ namespace KMZI_lib
         /// Счетчик для ЛРС
         /// </summary>
         public static int c = 0;
-        static public long InverseNumber(long A, long B, long C)//А-находим обратное к этому числу, В-модуль
+        /// <summary>
+        /// Нахождение обратного элемента с помощью РАЕ
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="B"></param>
+        /// <param name="C"></param>
+        /// <returns></returns>
+        static public long InverseNumber(long A, long B, long C)
         {
             long nod;
             long x1;
@@ -36,8 +43,14 @@ namespace KMZI_lib
                 x1 -= B / nod;
             }
             return x1;
-            //exponenX1 = Exponentiation(A, B - 2, B);
         }
+        /// <summary>
+        /// Возведение числа в степень по модулю
+        /// </summary>
+        /// <param name="n">число, возводимое в степень</param>
+        /// <param name="deg">степень</param>
+        /// <param name="modul">модуль</param>
+        /// <returns></returns>
         static public long Exponentiation(long n, long deg, long modul)
         {
             string binaryCode = Convert.ToString(deg, 2);
@@ -59,6 +72,11 @@ namespace KMZI_lib
             }
             return n;
         }
+        /// <summary>
+        /// Детерминированная проверка числа на прототу
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
         static public bool CheckForSimplicity(long n)
         {
             for (int i = 2; i < Math.Sqrt(n); i++)
@@ -68,6 +86,12 @@ namespace KMZI_lib
             }
             return true;
         }
+        /// <summary>
+        /// Нахождение НОДа двух чисел
+        /// </summary>
+        /// <param name="numA"></param>
+        /// <param name="numB"></param>
+        /// <returns></returns>
         static public long NOD(long numA, long numB)
         {
             a.Clear(); x.Clear(); y.Clear(); q.Clear();
@@ -99,6 +123,13 @@ namespace KMZI_lib
             nod = a[a.Count - 2];
             return nod;
         }
+        /// <summary>
+        /// Решение сравнения Ах+Ву=С
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="B"></param>
+        /// <param name="C"></param>
+        /// <returns></returns>
         public static long DecisionCompare(long A, long B, long C)
         {
             long nod;
@@ -122,6 +153,12 @@ namespace KMZI_lib
             }
             return x1;
         }
+        /// <summary>
+        /// Нахождение символа Якоби
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
         public static long Lezhandr(long a, long n)
         {
             long SL = 1;
@@ -164,6 +201,13 @@ namespace KMZI_lib
             }
             return SL;
         }
+        /// <summary>
+        /// Вычисление значение многочлена в точке по модулю
+        /// </summary>
+        /// <param name="koeff">Коэффициенты многочлена, начиная со старшего коэффициента</param>
+        /// <param name="point">Значение в точке</param>
+        /// <param name="mod">Модуль</param>
+        /// <returns></returns>
         public static long Gorner(List<long> koeff, long point, long mod)
         {
             long buf = koeff[0];
@@ -180,6 +224,11 @@ namespace KMZI_lib
             }
             return buf;
         }
+        /// <summary>
+        /// Факторизация числа
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns>Возвращает коллекцию ключ-значение, где ключ - это простое число, которое входит в разложение, а значение - это степень</returns>
         public static Dictionary<long, long> Factorization(long num)
         {
             Dictionary<long, long> dic = new Dictionary<long, long>();
@@ -196,10 +245,23 @@ namespace KMZI_lib
 
             return dic;
         }
+        /// <summary>
+        /// Нахождение НОК двух чисел
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
         public static long NOK(long m, long n)
         {
             return m * n / NOD(m, n);
         }
+        /// <summary>
+        /// Деление многочлена на многочлен
+        /// </summary>
+        /// <param name="K1">Делимое</param>
+        /// <param name="K2">Делитель</param>
+        /// <param name="mod">модуль</param>
+        /// <returns>Частное от деления</returns>
         public static long[] DivisionPolinom(long[] K1, long[] K2, long mod)
         {
             //  int deg = K1.Length - 1;
@@ -236,6 +298,13 @@ namespace KMZI_lib
             //    s += K1[i] + " ";
             return result;
         }
+        /// <summary>
+        /// Деление многочлена на многочлен
+        /// </summary>
+        /// <param name="K1">Делимое</param>
+        /// <param name="K2">Делитель</param>
+        /// <param name="mod">модуль</param>
+        /// <returns>Остаток от деления</returns>
         public static long[] ModPolinom(long[] K1, long[] K2, long mod)
         {
             //  int deg = K1.Length - 1;
@@ -272,14 +341,18 @@ namespace KMZI_lib
             //    s += K1[i] + " ";
             return K1;
         }
+        /// <summary>
+        /// Возвращает число по модулю
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="mod"></param>
+        /// <returns></returns>
         public static long numOnMod(long num, long mod)
         {
             while (num < 0) num += mod;
             while (num > mod) num -= mod;
             return num;
         }
-
-
         /// <summary>
       /// Нахождение периода ЛРП
       /// </summary>
@@ -318,6 +391,13 @@ namespace KMZI_lib
             vector = LRP(vector, max, Pi, mod);
             return newElement(vector, Pi,mod);
         }
+        /// <summary>
+        /// Для ЛРП
+        /// </summary>
+        /// <param name="ls"></param>
+        /// <param name="Pi"></param>
+        /// <param name="mod"></param>
+        /// <returns></returns>
         static List<int> newElement(List<int> ls, List<int> Pi,int mod)
         {
             int buf = 0;
